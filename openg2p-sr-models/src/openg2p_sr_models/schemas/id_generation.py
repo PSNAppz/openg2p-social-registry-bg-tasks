@@ -22,5 +22,5 @@ class G2PQueIDGenerationModel(BaseModel):
 
 
 class ResPartnerModel(BaseModel):
-    registrant_id: str
+    registrant_id: int
     ref_id: Optional[str]

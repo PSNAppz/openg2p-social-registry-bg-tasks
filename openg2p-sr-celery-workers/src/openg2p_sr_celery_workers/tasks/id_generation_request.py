@@ -67,9 +67,7 @@ def id_generation_request_worker(registrant_id: str):
 
             # Update res_partner.ref_id with the MOSIP Generated ID
             res_partner = (
-                session.query(ResPartner)
-                .filter(ResPartner.registrant_id == registrant_id)
-                .first()
+                session.query(ResPartner).filter(ResPartner.id == registrant_id).first()
             )
 
             if not res_partner:

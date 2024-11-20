@@ -45,5 +45,5 @@ class G2PQueIDGeneration(BaseORMModelWithTimes):
 class ResPartner(BaseORMModel):
     __tablename__ = "res_partner"
 
-    registrant_id = mapped_column(String, primary_key=True)
+    id: mapped_column[int] = mapped_column(primary_key=True)
     ref_id = mapped_column(String)

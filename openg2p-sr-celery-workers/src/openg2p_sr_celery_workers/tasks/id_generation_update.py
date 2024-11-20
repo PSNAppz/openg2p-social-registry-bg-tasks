@@ -42,7 +42,7 @@ def id_generation_update_worker(registrant_id: str):
             # Fetch res_partner to get the UIN
             res_partner = (
                 session.query(ResPartner)
-                .filter(ResPartner.registrant_id == registrant_id)
+                .filter(ResPartner.id == registrant_id)
                 .first()
             )
 

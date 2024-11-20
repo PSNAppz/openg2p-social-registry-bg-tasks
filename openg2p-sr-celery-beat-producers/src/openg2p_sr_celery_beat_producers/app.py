@@ -7,7 +7,6 @@ _config = Settings.get_config()
 from celery import Celery
 from openg2p_fastapi_common.app import Initializer as BaseInitializer
 from openg2p_fastapi_common.exception import BaseExceptionHandler
-
 from sqlalchemy import create_engine
 
 
@@ -16,7 +15,6 @@ class Initializer(BaseInitializer):
         super().init_logger()
         super().init_app()
         BaseExceptionHandler()
-
 
 
 def get_engine():

@@ -1,7 +1,7 @@
 import enum
 from datetime import datetime
 
-from openg2p_fastapi_common.models import BaseORMModelWithTimes, BaseORMModel
+from openg2p_fastapi_common.models import BaseORMModel, BaseORMModelWithTimes
 from sqlalchemy import DateTime, Integer, String
 from sqlalchemy import Enum as SqlEnum
 from sqlalchemy.orm import mapped_column
@@ -11,6 +11,7 @@ class IDGenerationRequestStatus(enum.Enum):
     PENDING = "PENDING"
     COMPLETED = "COMPLETED"
     FAILED = "FAILED"
+
 
 class IDGenerationUpdateStatus(enum.Enum):
     NOT_APPLICABLE = "NOT_APPLICABLE"

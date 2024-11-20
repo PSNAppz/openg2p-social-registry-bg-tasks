@@ -12,6 +12,7 @@ _config = Settings.get_config()
 _logger = logging.getLogger(_config.logging_default_logger_name)
 _engine = get_engine()
 
+
 @celery_app.task(name="id_generation_request_beat_producer")
 def id_generation_request_beat_producer():
     _logger.info("Checking for registrants pending ID generation request")
@@ -22,7 +23,8 @@ def id_generation_request_beat_producer():
         session.query(G2PQueIDGeneration).filter(
             G2PQueIDGeneration.id_generation_request_status
             == IDGenerationRequestStatus.PENDING,
-            G2PQueIDGeneration.number_of_attempts_request >= _config.max_id_generation_request_attempts,
+            G2PQueIDGeneration.number_of_attempts_request
+            >= _config.max_id_generation_request_attempts,
         ).update(
             {
                 G2PQueIDGeneration.id_generation_request_status: IDGenerationRequestStatus.FAILED,

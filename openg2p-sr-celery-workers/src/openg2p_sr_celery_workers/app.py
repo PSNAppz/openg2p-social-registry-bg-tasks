@@ -7,8 +7,8 @@ _config = Settings.get_config()
 from celery import Celery
 from openg2p_fastapi_common.app import Initializer as BaseInitializer
 from openg2p_fastapi_common.exception import BaseExceptionHandler
-
 from sqlalchemy import create_engine
+
 from .helpers import OAuthTokenService
 
 

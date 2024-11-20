@@ -23,8 +23,12 @@ class Settings(BaseSettings):
     celery_broker_url: str = "redis://localhost:6379/0"
     celery_backend_url: str = "redis://localhost:6379/0"
 
-    mosip_get_uin_url: str = "https://idgenerator.loadtest.openg2p.org/v1/idgenerator/uin"
-    mosip_update_uin_url: str = "https://idgenerator.loadtest.openg2p.org/v1/idgenerator/uin"
+    mosip_get_uin_url: str = (
+        "https://idgenerator.loadtest.openg2p.org/v1/idgenerator/uin"
+    )
+    mosip_update_uin_url: str = (
+        "https://idgenerator.loadtest.openg2p.org/v1/idgenerator/uin"
+    )
     max_id_generation_request_attempts: int = 3
     max_id_generation_update_attempts: int = 3
 
@@ -33,5 +37,3 @@ class Settings(BaseSettings):
     auth_client_id: str = "idgenerator"
     auth_client_secret: str = "idgenerator"
     auth_grant_type: str = "client_credentials"
-
-

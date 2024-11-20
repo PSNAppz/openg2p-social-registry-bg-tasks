@@ -2,12 +2,16 @@ import logging
 from datetime import datetime
 
 import httpx
-from openg2p_sr_models.models import G2PQueIDGeneration, IDGenerationUpdateStatus, ResPartner
+from openg2p_sr_models.models import (
+    G2PQueIDGeneration,
+    IDGenerationUpdateStatus,
+    ResPartner,
+)
 from sqlalchemy.orm import sessionmaker
 
-from ..helpers import OAuthTokenService
 from ..app import celery_app, get_engine
 from ..config import Settings
+from ..helpers import OAuthTokenService
 
 _config = Settings.get_config()
 _logger = logging.getLogger(_config.logging_default_logger_name)
@@ -51,7 +55,7 @@ def id_generation_update_worker(registrant_id: str):
 
             # Get OIDC token
             access_token = OAuthTokenService.get_component().get_oauth_token()
-            _logger.info(f"Received access token")
+            _logger.info("Received access token")
 
             if not access_token:
                 raise Exception("Failed to retrieve access token from token response")
@@ -70,9 +74,7 @@ def id_generation_update_worker(registrant_id: str):
                 "version": "string",
             }
             response = httpx.put(
-                _config.mosip_update_uin_url,
-                json=update_payload,
-                headers=headers
+                _config.mosip_update_uin_url, json=update_payload, headers=headers
             )
             if response.status_code != 200:
                 raise Exception(
@@ -86,7 +88,9 @@ def id_generation_update_worker(registrant_id: str):
             queue_entry.last_attempt_error_code_update = None
             session.commit()
 
-            _logger.info(f"ID generation update completed for registrant_id: {registrant_id}")
+            _logger.info(
+                f"ID generation update completed for registrant_id: {registrant_id}"
+            )
 
         except Exception as e:
             error_message = f"Error during ID generation update for registrant_id {registrant_id}: {str(e)}"
@@ -96,7 +100,14 @@ def id_generation_update_worker(registrant_id: str):
                 queue_entry.number_of_attempts_update += 1
                 queue_entry.last_attempt_datetime = datetime.utcnow()
                 queue_entry.last_attempt_error_code_update = str(e)
-                if queue_entry.number_of_attempts_update >= _config.max_id_generation_update_attempts:
-                    queue_entry.id_generation_update_status = IDGenerationUpdateStatus.FAILED
+                if (
+                    queue_entry.number_of_attempts_update
+                    >= _config.max_id_generation_update_attempts
+                ):
+                    queue_entry.id_generation_update_status = (
+                        IDGenerationUpdateStatus.FAILED
+                    )
                 session.commit()
-        _logger.info(f"Completed ID generation update for registrant_id: {registrant_id}")
+        _logger.info(
+            f"Completed ID generation update for registrant_id: {registrant_id}"
+        )

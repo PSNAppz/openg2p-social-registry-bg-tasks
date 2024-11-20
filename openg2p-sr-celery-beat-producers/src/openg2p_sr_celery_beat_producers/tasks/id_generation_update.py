@@ -1,7 +1,11 @@
 import logging
 from datetime import datetime
 
-from openg2p_sr_models.models import G2PQueIDGeneration, IDGenerationRequestStatus, IDGenerationUpdateStatus
+from openg2p_sr_models.models import (
+    G2PQueIDGeneration,
+    IDGenerationRequestStatus,
+    IDGenerationUpdateStatus,
+)
 from sqlalchemy import select
 from sqlalchemy.orm import sessionmaker
 
@@ -23,7 +27,8 @@ def id_generation_update_beat_producer():
         session.query(G2PQueIDGeneration).filter(
             G2PQueIDGeneration.id_generation_update_status
             == IDGenerationUpdateStatus.PENDING,
-            G2PQueIDGeneration.number_of_attempts_update >= _config.max_id_generation_update_attempts,
+            G2PQueIDGeneration.number_of_attempts_update
+            >= _config.max_id_generation_update_attempts,
         ).update(
             {
                 G2PQueIDGeneration.id_generation_update_status: IDGenerationUpdateStatus.FAILED,

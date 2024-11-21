@@ -49,8 +49,6 @@ def id_generation_update_worker(registrant_id: str):
                     f"No UIN found for registrant_id: {registrant_id} in res_partner"
                 )
 
-            uin = res_partner.ref_id
-
             # Get OIDC token
             access_token = OAuthTokenService.get_component().get_oauth_token()
             _logger.info("Received access token")
@@ -62,13 +60,15 @@ def id_generation_update_worker(registrant_id: str):
                 "Cookie": f"Authorization={access_token}",
                 "Accept": "application/json",
             }
+            current_datetime = datetime.utcnow()
+            formatted_datetime = current_datetime.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
 
             # Call MOSIP Update UIN API to update status
             update_payload = {
                 "id": "string",
                 "metadata": {},
-                "request": {"uin": uin, "status": "ASSIGNED"},
-                "requesttime": datetime.utcnow().isoformat(),
+                "request": {"uin": res_partner.ref_id, "status": "ASSIGNED"},
+                "requesttime":formatted_datetime,
                 "version": "string",
             }
             response = httpx.put(
@@ -95,9 +95,7 @@ def id_generation_update_worker(registrant_id: str):
             queue_entry.last_attempt_error_code_update = None
             session.commit()
 
-            _logger.info(
-                f"Mosip update completed for registrant_id: {registrant_id}"
-            )
+            _logger.info(f"Mosip update completed for registrant_id: {registrant_id}")
 
         except Exception as e:
             error_message = f"Error during ID generation update for registrant_id {registrant_id}: {str(e)}"

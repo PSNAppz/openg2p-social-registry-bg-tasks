@@ -93,7 +93,7 @@ def id_generation_update_worker(registrant_id: str):
             # Status is 200 and No errors then update queue entry statuses
             queue_entry.number_of_attempts_update += 1
             queue_entry.id_generation_update_status = IDGenerationUpdateStatus.COMPLETED
-            queue_entry.last_attempt_datetime = datetime.utcnow()
+            queue_entry.last_attempt_datetime_update = datetime.utcnow()
             queue_entry.last_attempt_error_code_update = None
             session.commit()
 
@@ -105,7 +105,7 @@ def id_generation_update_worker(registrant_id: str):
 
             if queue_entry:
                 queue_entry.number_of_attempts_update += 1
-                queue_entry.last_attempt_datetime = datetime.utcnow()
+                queue_entry.last_attempt_datetime_update = datetime.utcnow()
                 queue_entry.last_attempt_error_code_update = str(e)
                 if (
                     queue_entry.number_of_attempts_update

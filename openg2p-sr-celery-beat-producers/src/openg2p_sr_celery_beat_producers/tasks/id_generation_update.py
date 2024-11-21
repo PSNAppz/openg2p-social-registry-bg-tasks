@@ -32,7 +32,7 @@ def id_generation_update_beat_producer():
         ).update(
             {
                 G2PQueIDGeneration.id_generation_update_status: IDGenerationUpdateStatus.FAILED,
-                G2PQueIDGeneration.last_attempt_datetime: datetime.utcnow(),
+                G2PQueIDGeneration.last_attempt_datetime_update: datetime.utcnow(),
             },
             synchronize_session=False,
         )

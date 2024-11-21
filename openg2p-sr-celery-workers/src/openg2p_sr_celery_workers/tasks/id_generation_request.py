@@ -94,7 +94,7 @@ def id_generation_request_worker(registrant_id: str):
                 IDGenerationRequestStatus.COMPLETED
             )
             queue_entry.id_generation_update_status = IDGenerationUpdateStatus.PENDING
-            queue_entry.last_attempt_datetime = datetime.utcnow()
+            queue_entry.last_attempt_datetime_request = datetime.utcnow()
             queue_entry.last_attempt_error_code_request = None
             session.commit()
 
@@ -108,7 +108,7 @@ def id_generation_request_worker(registrant_id: str):
 
             if queue_entry:
                 queue_entry.number_of_attempts_request += 1
-                queue_entry.last_attempt_datetime = datetime.utcnow()
+                queue_entry.last_attempt_datetime_request = datetime.utcnow()
                 queue_entry.last_attempt_error_code_request = str(e)
                 if (
                     queue_entry.number_of_attempts_request

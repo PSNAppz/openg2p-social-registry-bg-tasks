@@ -28,7 +28,7 @@ def id_generation_request_beat_producer():
         ).update(
             {
                 G2PQueIDGeneration.id_generation_request_status: IDGenerationRequestStatus.FAILED,
-                G2PQueIDGeneration.last_attempt_datetime: datetime.utcnow(),
+                G2PQueIDGeneration.last_attempt_datetime_request: datetime.utcnow(),
             },
             synchronize_session=False,
         )

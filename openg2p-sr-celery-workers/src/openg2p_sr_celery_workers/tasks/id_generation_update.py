@@ -61,14 +61,16 @@ def id_generation_update_worker(registrant_id: str):
                 "Accept": "application/json",
             }
             current_datetime = datetime.utcnow()
-            formatted_datetime = current_datetime.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
+            formatted_datetime = (
+                current_datetime.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+            )
 
             # Call MOSIP Update UIN API to update status
             update_payload = {
                 "id": "string",
                 "metadata": {},
                 "request": {"uin": res_partner.ref_id, "status": "ASSIGNED"},
-                "requesttime":formatted_datetime,
+                "requesttime": formatted_datetime,
                 "version": "string",
             }
             response = httpx.put(

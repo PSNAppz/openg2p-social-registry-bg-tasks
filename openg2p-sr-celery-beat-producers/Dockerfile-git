@@ -23,7 +23,7 @@ RUN python3 -m venv venv \
 RUN python3 -m pip install  \
     git+https://github.com/openg2p/openg2p-fastapi-common@1.1.0\#subdirectory=openg2p-fastapi-common \
     git+https://github.com/openg2p/openg2p-fastapi-common@1.1.0\#subdirectory=openg2p-fastapi-auth \
-    git+https://github.com/psnappz/openg2p-social-registry-bg-tasks@1.0\#subdirectory=openg2p-sr-models \
+    git+https://github.com/OpenG2P/openg2p-social-registry-bg-tasks@1.0\#subdirectory=openg2p-sr-models \
     ./src
 
 USER ${container_user}

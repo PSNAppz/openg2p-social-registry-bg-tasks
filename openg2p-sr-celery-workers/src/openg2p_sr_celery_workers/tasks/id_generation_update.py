@@ -79,7 +79,13 @@ def id_generation_update_worker(registrant_id: str):
                     f"MOSIP Update UIN API call failed with status code {response.status_code}"
                 )
 
-            # Update queue entry statuses
+            # Status code is 200
+            if response.json().get("errors"):
+                raise Exception(
+                    f"MOSIP Update UIN API call failed with error: {response.json().get('errors') or response.json().get('error')}"
+                )
+
+            # Status is 200 and No errors then update queue entry statuses
             queue_entry.number_of_attempts_update += 1
             queue_entry.id_generation_update_status = IDGenerationUpdateStatus.COMPLETED
             queue_entry.last_attempt_datetime = datetime.utcnow()

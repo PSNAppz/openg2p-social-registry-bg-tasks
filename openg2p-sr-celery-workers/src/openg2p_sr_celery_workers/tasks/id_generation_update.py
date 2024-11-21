@@ -74,6 +74,9 @@ def id_generation_update_worker(registrant_id: str):
             response = httpx.put(
                 _config.mosip_update_uin_url, json=update_payload, headers=headers
             )
+            _logger.info(
+                f"Received response from MOSIP Update UIN API: {response.text}"
+            )
             if response.status_code != 200:
                 raise Exception(
                     f"MOSIP Update UIN API call failed with status code {response.status_code}"
@@ -93,7 +96,7 @@ def id_generation_update_worker(registrant_id: str):
             session.commit()
 
             _logger.info(
-                f"ID generation update completed for registrant_id: {registrant_id}"
+                f"Mosip update completed for registrant_id: {registrant_id}"
             )
 
         except Exception as e:

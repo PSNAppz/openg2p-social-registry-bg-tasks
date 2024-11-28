@@ -44,7 +44,7 @@ def id_generation_update_worker(registrant_id: str):
                 session.query(ResPartner).filter(ResPartner.id == registrant_id).first()
             )
 
-            if not res_partner or not res_partner.ref_id:
+            if not res_partner or not res_partner.unique_id:
                 raise Exception(
                     f"No UIN found for registrant_id: {registrant_id} in res_partner"
                 )
@@ -69,7 +69,7 @@ def id_generation_update_worker(registrant_id: str):
             update_payload = {
                 "id": "string",
                 "metadata": {},
-                "request": {"uin": res_partner.ref_id, "status": "ASSIGNED"},
+                "request": {"uin": res_partner.unique_id, "status": "ASSIGNED"},
                 "requesttime": formatted_datetime,
                 "version": "string",
             }

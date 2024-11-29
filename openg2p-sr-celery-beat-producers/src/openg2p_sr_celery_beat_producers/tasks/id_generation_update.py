@@ -41,7 +41,8 @@ def id_generation_update_beat_producer():
         # Select entries that have COMPLETED request and PENDING update status
         pending_update_entries = (
             session.execute(
-                select(G2PQueIDGeneration).filter(
+                select(G2PQueIDGeneration)
+                .filter(
                     G2PQueIDGeneration.id_generation_request_status
                     == IDGenerationRequestStatus.COMPLETED,
                     G2PQueIDGeneration.id_generation_update_status
@@ -49,6 +50,7 @@ def id_generation_update_beat_producer():
                     G2PQueIDGeneration.number_of_attempts_update
                     < _config.max_id_generation_update_attempts,
                 )
+                .limit(_config.batch_size)
             )
             .scalars()
             .all()

@@ -47,4 +47,4 @@ class ResPartner(BaseORMModel):
     __tablename__ = "res_partner"
 
     id = mapped_column(Integer, primary_key=True)
-    ref_id = mapped_column(String)
+    unique_id = mapped_column(String)

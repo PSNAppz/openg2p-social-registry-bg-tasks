@@ -39,11 +39,12 @@ class G2PQueIDGeneration(BaseORMModelWithTimes):
     number_of_attempts_update = mapped_column(Integer, nullable=False, default=0)
     last_attempt_error_code_request = mapped_column(String)
     last_attempt_error_code_update = mapped_column(String)
-    last_attempt_datetime = mapped_column(DateTime)
+    last_attempt_datetime_request = mapped_column(DateTime)
+    last_attempt_datetime_update = mapped_column(DateTime)
 
 
 class ResPartner(BaseORMModel):
     __tablename__ = "res_partner"
 
-    registrant_id = mapped_column(String, primary_key=True)
-    ref_id = mapped_column(String)
+    id = mapped_column(Integer, primary_key=True)
+    unique_id = mapped_column(String)

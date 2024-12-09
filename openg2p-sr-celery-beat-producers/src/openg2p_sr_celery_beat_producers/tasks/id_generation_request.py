@@ -28,7 +28,7 @@ def id_generation_request_beat_producer():
         ).update(
             {
                 G2PQueIDGeneration.id_generation_request_status: IDGenerationRequestStatus.FAILED,
-                G2PQueIDGeneration.last_attempt_datetime: datetime.utcnow(),
+                G2PQueIDGeneration.last_attempt_datetime_request: datetime.utcnow(),
             },
             synchronize_session=False,
         )
@@ -37,12 +37,14 @@ def id_generation_request_beat_producer():
         # Select entries that are PENDING for request status and have not exceeded max attempts
         pending_request_entries = (
             session.execute(
-                select(G2PQueIDGeneration).filter(
+                select(G2PQueIDGeneration)
+                .filter(
                     G2PQueIDGeneration.id_generation_request_status
                     == IDGenerationRequestStatus.PENDING,
                     G2PQueIDGeneration.number_of_attempts_request
                     < _config.max_id_generation_request_attempts,
                 )
+                .limit(_config.batch_size)
             )
             .scalars()
             .all()

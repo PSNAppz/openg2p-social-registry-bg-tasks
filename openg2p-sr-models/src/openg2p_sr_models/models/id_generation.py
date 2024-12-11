@@ -1,7 +1,7 @@
 import enum
 from datetime import datetime
 
-from openg2p_fastapi_common.models import BaseORMModel, BaseORMModelWithTimes
+from openg2p_fastapi_common.models import BaseORMModel
 from sqlalchemy import DateTime, Integer, String
 from sqlalchemy import Enum as SqlEnum
 from sqlalchemy.orm import mapped_column
@@ -20,7 +20,7 @@ class IDGenerationUpdateStatus(enum.Enum):
     FAILED = "FAILED"
 
 
-class G2PQueIDGeneration(BaseORMModelWithTimes):
+class G2PQueIDGeneration(BaseORMModel):
     __tablename__ = "g2p_que_id_generation"
     id = mapped_column(Integer, primary_key=True, autoincrement=True)
     registrant_id = mapped_column(String, nullable=False, unique=True)

@@ -65,7 +65,7 @@ def id_generation_request_worker(registrant_id: str):
             if not uin:
                 raise Exception("UIN not received from MOSIP")
 
-            # Update res_partner.ref_id with the MOSIP Generated ID
+            # Update res_partner.unique_id with the MOSIP Generated ID
             res_partner = (
                 session.query(ResPartner).filter(ResPartner.id == registrant_id).first()
             )
@@ -75,17 +75,17 @@ def id_generation_request_worker(registrant_id: str):
                     f"No res_partner entry found for registrant_id: {registrant_id}"
                 )
 
-            # Check if the UIN is already present in res_partner.ref_id
+            # Check if the UIN is already present in res_partner.unique_id
             existing_partner_with_uin = (
-                session.query(ResPartner).filter(ResPartner.ref_id == uin).first()
+                session.query(ResPartner).filter(ResPartner.unique_id == uin).first()
             )
 
             if existing_partner_with_uin:
                 raise Exception(
-                    f"MOSIP ID {uin} is already present in res_partner.ref_id"
+                    f"MOSIP ID {uin} is already present in res_partner.unique_id"
                 )
 
-            res_partner.ref_id = uin
+            res_partner.unique_id = uin
             session.commit()
 
             # Update queue entry statuses
@@ -94,7 +94,7 @@ def id_generation_request_worker(registrant_id: str):
                 IDGenerationRequestStatus.COMPLETED
             )
             queue_entry.id_generation_update_status = IDGenerationUpdateStatus.PENDING
-            queue_entry.last_attempt_datetime = datetime.utcnow()
+            queue_entry.last_attempt_datetime_request = datetime.utcnow()
             queue_entry.last_attempt_error_code_request = None
             session.commit()
 
@@ -108,7 +108,7 @@ def id_generation_request_worker(registrant_id: str):
 
             if queue_entry:
                 queue_entry.number_of_attempts_request += 1
-                queue_entry.last_attempt_datetime = datetime.utcnow()
+                queue_entry.last_attempt_datetime_request = datetime.utcnow()
                 queue_entry.last_attempt_error_code_request = str(e)
                 if (
                     queue_entry.number_of_attempts_request

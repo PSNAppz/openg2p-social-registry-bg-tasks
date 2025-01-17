@@ -28,3 +28,5 @@ class Settings(BaseSettings):
 
     res_partner_id_generation_frequency: int = 10
     res_partner_id_update_frequency: int = 10
+
+    batch_size: int = 10000

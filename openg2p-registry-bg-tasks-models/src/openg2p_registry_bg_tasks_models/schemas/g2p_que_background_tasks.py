@@ -5,16 +5,17 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class IDGenerationStatusEnum(str, Enum):
+class TaskStatus(str, Enum):
     PENDING = "PENDING"
     COMPLETED = "COMPLETED"
     FAILED = "FAILED"
 
 
-class G2PQueIDGenerationModel(BaseModel):
+class BackgroundTask(BaseModel):
     id: Optional[int]
-    registrant_id: str
-    id_generation_status: IDGenerationStatusEnum
+    task_type: str
+    worker_payload: dict
+    task_status: TaskStatus
     queued_datetime: datetime
     number_of_attempts: int
     last_attempt_datetime: Optional[datetime]

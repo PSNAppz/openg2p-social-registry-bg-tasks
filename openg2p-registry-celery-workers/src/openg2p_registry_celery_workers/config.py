@@ -1,6 +1,6 @@
 from openg2p_fastapi_common.config import Settings as BaseSettings
 from pydantic_settings import SettingsConfigDict
-
+from typing import Dict
 from . import __version__
 
 
@@ -29,8 +29,8 @@ class Settings(BaseSettings):
     mosip_update_uin_url: str = (
         "https://idgenerator.loadtest.openg2p.org/v1/idgenerator/uin"
     )
-    max_id_generation_request_attempts: int = 3
-    max_id_generation_update_attempts: int = 3
+
+    task_type_max_attempts: Dict[str, int] # TODO: Review this
 
     # Authentication parameters
     auth_url: str = "https://idgenerator.loadtest.openg2p.org/v1/idgenerator/token"

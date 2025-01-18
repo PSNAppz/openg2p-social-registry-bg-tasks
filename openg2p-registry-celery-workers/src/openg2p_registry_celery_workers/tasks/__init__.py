@@ -1,2 +1,3 @@
 from .id_generation_request import id_generation_request_worker
 from .id_generation_update import id_generation_update_worker
+from .example_worker_task import example_worker_task

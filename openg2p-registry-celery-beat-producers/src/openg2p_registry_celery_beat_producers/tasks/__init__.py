@@ -1,0 +1,1 @@
+from .registry_beat_producer import registry_beat_producer

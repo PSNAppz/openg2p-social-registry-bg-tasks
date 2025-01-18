@@ -3,11 +3,11 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "openg2p-sr-celery-beat-producers"
+name = "openg2p-registry-celery-beat-producers"
 authors = [
   { name="OpenG2P", email="info@openg2p.org" },
 ]
-description = "OpenG2P Social Registry Celery Beat Producers"
+description = "OpenG2P Registry Celery Beat Producers"
 readme = "README.md"
 requires-python = ">=3.7"
 classifiers = [
@@ -29,4 +29,4 @@ Repository = "https://github.com/OpenG2P/openg2p-social-registry-bg-tasks"
 Source = "https://github.com/OpenG2P/openg2p-social-registry-bg-tasks"
 
 [tool.hatch.version]
-path = "src/openg2p_sr_celery_beat_producers/__init__.py"
+path = "src/openg2p_registry_celery_beat_producers/__init__.py"

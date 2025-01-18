@@ -1,8 +1,8 @@
 from openg2p_fastapi_common.config import Settings as BaseSettings
 from pydantic_settings import SettingsConfigDict
+from typing import Dict
 
 from . import __version__
-
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -17,16 +17,12 @@ class Settings(BaseSettings):
         """
     openapi_version: str = __version__
 
-    db_dbname: str = "socialregistrydb"
+    db_dbname: str = "registrydb"
     db_driver: str = "postgresql"
 
     celery_broker_url: str = "redis://localhost:6379/0"
     celery_backend_url: str = "redis://localhost:6379/0"
 
-    max_id_generation_request_attempts: int = 3
-    max_id_generation_update_attempts: int = 3
-
-    res_partner_id_generation_frequency: int = 10
-    res_partner_id_update_frequency: int = 10
-
+    registry_beat_producer_frequency: int = 10
+    task_type_max_attempts: Dict[str, int]
     batch_size: int = 10000

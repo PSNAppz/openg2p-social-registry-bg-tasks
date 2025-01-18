@@ -24,20 +24,16 @@ def get_engine():
 
 
 celery_app = Celery(
-    "g2p_sr_celery_beat_producer",
+    "g2p_registry_celery_beat_producer",
     broker=_config.celery_broker_url,
     backend=_config.celery_backend_url,
-    include=["openg2p_sr_celery_beat_producers.tasks"],
+    include=["openg2p_registry_celery_beat_producers.tasks"],
 )
 
 celery_app.conf.beat_schedule = {
-    "id_generation_request_beat_producer": {
-        "task": "id_generation_request_beat_producer",
-        "schedule": _config.res_partner_id_generation_frequency,
-    },
-    "id_generation_update_beat_producer": {
-        "task": "id_generation_update_beat_producer",
-        "schedule": _config.res_partner_id_update_frequency,
+    "registry_beat_producer": {
+        "task": "registry_beat_producer",
+        "schedule": _config.registry_beat_producer_frequency,
     },
 }
 celery_app.conf.timezone = "UTC"

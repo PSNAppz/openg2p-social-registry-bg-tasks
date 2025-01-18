@@ -25,8 +25,8 @@ dynamic = ["version"]
 [project.urls]
 Homepage = "https://openg2p.org"
 Documentation = "https://docs.openg2p.org/"
-Repository = "https://github.com/OpenG2P/openg2p-social-registry-bg-tasks"
-Source = "https://github.com/OpenG2P/openg2p-social-registry-bg-tasks"
+Repository = "https://github.com/OpenG2P/openg2p-registry-bg-tasks"
+Source = "https://github.com/OpenG2P/openg2p-registry-bg-tasks"
 
 [tool.hatch.version]
 path = "src/openg2p_registry_celery_beat_producers/__init__.py"

@@ -1,6 +1,8 @@
+from typing import Dict
+
 from openg2p_fastapi_common.config import Settings as BaseSettings
 from pydantic_settings import SettingsConfigDict
-from typing import Dict
+
 from . import __version__
 
 
@@ -30,7 +32,7 @@ class Settings(BaseSettings):
         "https://idgenerator.loadtest.openg2p.org/v1/idgenerator/uin"
     )
 
-    task_type_max_attempts: Dict[str, int] # TODO: Review this
+    task_type_max_attempts: Dict[str, int]  # TODO: Review this
 
     # Authentication parameters
     auth_url: str = "https://idgenerator.loadtest.openg2p.org/v1/idgenerator/token"

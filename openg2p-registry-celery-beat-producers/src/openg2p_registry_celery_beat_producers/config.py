@@ -1,8 +1,10 @@
-from openg2p_fastapi_common.config import Settings as BaseSettings
-from pydantic_settings import SettingsConfigDict
 from typing import Dict
 
+from openg2p_fastapi_common.config import Settings as BaseSettings
+from pydantic_settings import SettingsConfigDict
+
 from . import __version__
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(

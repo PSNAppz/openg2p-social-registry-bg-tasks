@@ -24,8 +24,7 @@ def registry_beat_producer():
             session.execute(
                 select(G2PQueBackgroundTask)
                 .filter(
-                    G2PQueBackgroundTask.task_status
-                    == TaskStatus.PENDING,
+                    G2PQueBackgroundTask.task_status == TaskStatus.PENDING,
                 )
                 .limit(_config.batch_size)
             )
@@ -34,16 +33,16 @@ def registry_beat_producer():
         )
 
         for entry in pending_request_entries:
-            max_attempts = _config.task_type_max_attempts.get(entry.task_type, 3) # TODO: Review this
+            max_attempts = _config.task_type_max_attempts.get(
+                entry.task_type, 3
+            )  # TODO: Review this
             if entry.number_of_attempts < max_attempts:
                 entry.number_of_attempts += 1
                 entry.last_attempt_datetime = datetime.utcnow()
                 entry.queued_datetime = datetime.utcnow()
-                _logger.info(
-                    f"Queueing task for id: {entry.id}"
-                )
+                _logger.info(f"Queueing task for id: {entry.id}")
                 celery_app.send_task(
-                    f"{entry.task_type}", # TODO: Review this
+                    f"{entry.task_type}",  # TODO: Review this
                     args=(entry.id,),
                     queue=f"{entry.task_type}",
                 )

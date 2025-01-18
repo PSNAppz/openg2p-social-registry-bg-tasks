@@ -4,8 +4,8 @@ from datetime import datetime
 import httpx
 from openg2p_registry_bg_tasks_models.models import (
     G2PQueBackgroundTask,
-    TaskStatus,
     ResPartner,
+    TaskStatus,
 )
 from sqlalchemy.orm import sessionmaker
 
@@ -20,7 +20,7 @@ _engine = get_engine()
 
 @celery_app.task(name="id_generation_update_worker")
 def id_generation_update_worker(task_id: int):
-    _logger.info(f"Starting ID generation update")
+    _logger.info("Starting ID generation update")
     session_maker = sessionmaker(bind=_engine, expire_on_commit=False)
 
     with session_maker() as session:
@@ -34,9 +34,7 @@ def id_generation_update_worker(task_id: int):
             )
 
             if not queue_entry:
-                _logger.error(
-                    f"No queue entry found for task_id: {task_id}"
-                )
+                _logger.error(f"No queue entry found for task_id: {task_id}")
                 return
             registrant_id = queue_entry.worker_payload.get("registrant_id")
             # Fetch res_partner to get the UIN
@@ -109,11 +107,11 @@ def id_generation_update_worker(task_id: int):
                 queue_entry.last_attempt_error_code = str(e)
                 if (
                     queue_entry.number_of_attempts
-                    >= _config.task_type_max_attempts.get("max_id_generation_update_attempts")
-                ):
-                    queue_entry.task_status = (
-                        TaskStatus.FAILED
+                    >= _config.task_type_max_attempts.get(
+                        "max_id_generation_update_attempts"
                     )
+                ):
+                    queue_entry.task_status = TaskStatus.FAILED
                 session.commit()
         _logger.info(
             f"Completed ID generation update for registrant_id: {registrant_id}"

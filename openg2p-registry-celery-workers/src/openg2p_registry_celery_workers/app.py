@@ -28,10 +28,10 @@ def get_engine():
 
 
 celery_app = Celery(
-    "g2p_sr_celery_worker",
+    "g2p_registry_celery_worker",
     broker=_config.celery_broker_url,
     backend=_config.celery_backend_url,
-    include=["openg2p_sr_celery_workers.tasks"],
+    include=["openg2p_registry_celery_workers.tasks"],
 )
 
 celery_app.conf.timezone = "UTC"

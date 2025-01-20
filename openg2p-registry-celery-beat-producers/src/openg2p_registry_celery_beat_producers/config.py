@@ -8,11 +8,11 @@ from . import __version__
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_prefix="sr_celery_beat_", env_file=".env", extra="allow"
+        env_prefix="registry_celery_beat_", env_file=".env", extra="allow"
     )
-    openapi_title: str = "OpenG2P SR Celery Tasks"
+    openapi_title: str = "OpenG2P Registry Celery Tasks"
     openapi_description: str = """
-        Celery tasks for OpenG2P Social Registry
+        Celery tasks for OpenG2P Registry
         ***********************************
         Further details goes here
         ***********************************

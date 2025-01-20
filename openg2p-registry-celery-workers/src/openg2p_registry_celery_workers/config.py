@@ -32,7 +32,7 @@ class Settings(BaseSettings):
         "https://idgenerator.loadtest.openg2p.org/v1/idgenerator/uin"
     )
 
-    task_type_max_attempts: Dict[str, int]  # TODO: Review this
+    worker_type_max_attempts: Dict[str, int]
 
     # Authentication parameters
     auth_url: str = "https://idgenerator.loadtest.openg2p.org/v1/idgenerator/token"

@@ -12,16 +12,16 @@ _logger = logging.getLogger(_config.logging_default_logger_name)
 _engine = get_engine()
 
 
-@celery_app.task(name="example_worker_task")
-def example_worker_task(identifier):
-    _logger.info(f"Worker processing identifier: {identifier}")
+@celery_app.task(name="example_worker")
+def example_worker(id: int):
+    _logger.info(f"Worker processing id: {id}")
     session_maker = sessionmaker(bind=_engine, expire_on_commit=False)
     with session_maker() as session:
         task_record = None
         try:
             task_record = (
                 session.query(G2PQueBackgroundTask)
-                .filter_by(identifier=identifier)
+                .filter_by(id=id)
                 .first()
             )
             if task_record:
@@ -40,5 +40,5 @@ def example_worker_task(identifier):
                 task_record.last_attempt_error_code = str(e)
                 session.commit()
             _logger.error(
-                f"Worker task failed for identifier: {identifier}, error: {str(e)}"
+                f"Worker task failed for id: {id}, error: {str(e)}"
             )

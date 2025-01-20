@@ -19,7 +19,7 @@ _engine = get_engine()
 
 
 @celery_app.task(name="id_generation_update_worker")
-def id_generation_update_worker(task_id: int):
+def id_generation_update_worker(id: int):
     _logger.info("Starting ID generation update")
     session_maker = sessionmaker(bind=_engine, expire_on_commit=False)
 
@@ -29,12 +29,12 @@ def id_generation_update_worker(task_id: int):
             # Fetch the queue entry
             queue_entry = (
                 session.query(G2PQueBackgroundTask)
-                .filter(G2PQueBackgroundTask.id == task_id)
+                .filter(G2PQueBackgroundTask.id == id)
                 .first()
             )
 
             if not queue_entry:
-                _logger.error(f"No queue entry found for task_id: {task_id}")
+                _logger.error(f"No queue entry found for task_id: {id}")
                 return
             registrant_id = queue_entry.worker_payload.get("registrant_id")
             # Fetch res_partner to get the UIN
@@ -107,7 +107,7 @@ def id_generation_update_worker(task_id: int):
                 queue_entry.last_attempt_error_code = str(e)
                 if (
                     queue_entry.number_of_attempts
-                    >= _config.task_type_max_attempts.get(
+                    >= _config.worker_type_max_attempts.get(
                         "max_id_generation_update_attempts"
                     )
                 ):

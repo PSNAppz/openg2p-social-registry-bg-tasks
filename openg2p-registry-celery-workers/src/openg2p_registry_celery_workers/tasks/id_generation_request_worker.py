@@ -12,6 +12,7 @@ from sqlalchemy.orm import sessionmaker
 from ..app import celery_app, get_engine
 from ..config import Settings
 from ..helpers import OAuthTokenService
+from .worker_types import WorkerTypes
 
 _config = Settings.get_config()
 _logger = logging.getLogger(_config.logging_default_logger_name)
@@ -19,7 +20,7 @@ _engine = get_engine()
 
 
 @celery_app.task(name="id_generation_request_worker")
-def id_generation_request_worker(task_id: int):
+def id_generation_request_worker(id: int):
     _logger.info("Starting ID generation request")
     session_maker = sessionmaker(bind=_engine, expire_on_commit=False)
 
@@ -29,16 +30,16 @@ def id_generation_request_worker(task_id: int):
             # Fetch the queue entry
             queue_entry = (
                 session.query(G2PQueBackgroundTask)
-                .filter(G2PQueBackgroundTask.id == task_id)
+                .filter(G2PQueBackgroundTask.id == id)
                 .first()
             )
 
             if not queue_entry:
-                _logger.error(f"No queue entry found for task_id: {task_id}")
+                _logger.error(f"No queue entry found for task_id: {id}")
                 return
             registrant_id = queue_entry.worker_payload.get(
                 "registrant_id"
-            )  # TODO: Review this
+            ) # Payload will be in the form : {"registrant_id": 1}
             # Get OIDC token
             access_token = OAuthTokenService.get_component().get_oauth_token()
             _logger.info("Received access token")
@@ -90,13 +91,12 @@ def id_generation_request_worker(task_id: int):
             # Update queue entry statuses
             queue_entry.number_of_attempts += 1
             queue_entry.task_status = TaskStatus.COMPLETED
-            queue_entry.id_generation_update_status = TaskStatus.PENDING
-            queue_entry.last_attempt_datetime_request = datetime.utcnow()
-            queue_entry.last_attempt_error_code_request = None
+            queue_entry.last_attempt_datetime = datetime.utcnow()
+            queue_entry.last_attempt_error_code = None
 
             # Add a new entry to the queue for ID generation update
             new_queue_entry = G2PQueBackgroundTask(
-                task_type="id_generation_update_worker",
+                worker_type=WorkerTypes.ID_GENERATION_UPDATE_WORKER,
                 worker_payload={"registrant_id": registrant_id},
             )
             session.add(new_queue_entry)
@@ -119,9 +119,9 @@ def id_generation_request_worker(task_id: int):
                 queue_entry.last_attempt_error_code = str(e)
                 if (
                     queue_entry.number_of_attempts
-                    >= _config.task_type_max_attempts.get(
+                    >= _config.worker_type_max_attempts.get(
                         "max_id_generation_request_attempts"
-                    )  # TODO: Review this
+                    )
                 ):
                     queue_entry.task_status = TaskStatus.FAILED
                 session.commit()

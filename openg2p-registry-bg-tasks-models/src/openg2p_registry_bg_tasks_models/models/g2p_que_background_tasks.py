@@ -16,9 +16,9 @@ class G2PQueBackgroundTask(BaseORMModel):
     __tablename__ = "g2p_que_background_tasks"
 
     id = mapped_column(Integer, primary_key=True, autoincrement=True)
-    task_type = mapped_column(
-        String, default="example_worker_task"
-    )  # Default task type
+    worker_type = mapped_column(
+        String, default="example_worker"
+    )  # Default worker type
     worker_payload = mapped_column(JSON, nullable=False)
     task_status = mapped_column(String, default=TaskStatus.PENDING)
     queued_datetime = mapped_column(DateTime, nullable=False, default=datetime.utcnow)

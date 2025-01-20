@@ -39,7 +39,7 @@ def id_generation_request_worker(id: int):
                 return
             registrant_id = queue_entry.worker_payload.get(
                 "registrant_id"
-            ) # Payload will be in the form : {"registrant_id": 1}
+            )  # Payload will be in the form : {"registrant_id": 1}
             # Get OIDC token
             access_token = OAuthTokenService.get_component().get_oauth_token()
             _logger.info("Received access token")

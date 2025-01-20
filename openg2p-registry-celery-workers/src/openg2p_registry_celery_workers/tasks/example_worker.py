@@ -19,11 +19,7 @@ def example_worker(id: int):
     with session_maker() as session:
         task_record = None
         try:
-            task_record = (
-                session.query(G2PQueBackgroundTask)
-                .filter_by(id=id)
-                .first()
-            )
+            task_record = session.query(G2PQueBackgroundTask).filter_by(id=id).first()
             if task_record:
                 # Perform the main processing logic here...
                 _logger.info(f"Worker Task Payload JSON: {task_record.worker_payload}")
@@ -39,6 +35,4 @@ def example_worker(id: int):
                 task_record.last_attempt_datetime = datetime.utcnow()
                 task_record.last_attempt_error_code = str(e)
                 session.commit()
-            _logger.error(
-                f"Worker task failed for id: {id}, error: {str(e)}"
-            )
+            _logger.error(f"Worker task failed for id: {id}, error: {str(e)}")

@@ -33,9 +33,7 @@ def registry_beat_producer():
         )
 
         for entry in pending_request_entries:
-            max_attempts = _config.worker_type_max_attempts.get(
-                entry.worker_type, 3
-            )
+            max_attempts = _config.worker_type_max_attempts.get(entry.worker_type, 3)
             if entry.number_of_attempts < max_attempts:
                 entry.number_of_attempts += 1
                 entry.last_attempt_datetime = datetime.utcnow()

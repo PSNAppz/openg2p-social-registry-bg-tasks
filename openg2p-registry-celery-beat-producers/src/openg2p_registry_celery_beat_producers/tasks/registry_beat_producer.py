@@ -42,7 +42,7 @@ def registry_beat_producer():
                 celery_app.send_task(
                     f"{entry.worker_type}",
                     args=(entry.id,),
-                    queue=f"{entry.worker_type}",
+                    queue="registry_queue",
                 )
                 session.commit()
     _logger.info("Completed checking for pending tasks")

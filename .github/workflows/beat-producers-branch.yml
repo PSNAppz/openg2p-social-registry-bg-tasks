@@ -1,4 +1,4 @@
-name: SR BG Tasks Celery Beat Branch Workflow
+name: Registry BG Tasks Celery Beat Branch Workflow
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NAMESPACE: ${{ secrets.docker_hub_organisation || 'openg2p' }}
-      SERVICE_NAME: openg2p-sr-celery-beat-producers
+      SERVICE_NAME: openg2p-registry-celery-beat-producers
     steps:
       - uses: actions/checkout@v3
       - name: Docker build
@@ -30,7 +30,7 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID >> $GITHUB_ENV
           echo VERSION=$VERSION >> $GITHUB_ENV
 
-          docker build ./openg2p-sr-celery-beat-producers -f ./openg2p-sr-celery-beat-producers/Dockerfile-git \
+          docker build ./openg2p-registry-celery-beat-producers -f ./openg2p-registry-celery-beat-producers/Dockerfile-git \
             --tag $IMAGE_ID:$VERSION
           if [[ '${{ secrets.docker_hub_token }}' != '' && '${{ secrets.docker_hub_actor }}' != '' ]]; then
             export DOCKER_PUSH="true"

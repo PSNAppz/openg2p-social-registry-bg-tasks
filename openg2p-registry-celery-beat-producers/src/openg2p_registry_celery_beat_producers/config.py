@@ -26,5 +26,5 @@ class Settings(BaseSettings):
     celery_backend_url: str = "redis://localhost:6379/0"
 
     registry_beat_producer_frequency: int = 10
-    task_type_max_attempts: Dict[str, int]
+    worker_type_max_attempts: Dict[str, int]
     batch_size: int = 10000

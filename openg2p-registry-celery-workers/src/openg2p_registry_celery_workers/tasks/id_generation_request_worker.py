@@ -96,7 +96,7 @@ def id_generation_request_worker(id: int):
 
             # Add a new entry to the queue for ID generation update
             new_queue_entry = G2PQueBackgroundTask(
-                worker_type=WorkerTypes.ID_GENERATION_UPDATE_WORKER,
+                worker_type=WorkerTypes.ID_GENERATION_UPDATE_WORKER.value,
                 worker_payload={"registrant_id": registrant_id},
             )
             session.add(new_queue_entry)

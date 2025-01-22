@@ -1,4 +1,4 @@
-from .g2p_que_background_tasks import (
+from .g2p_que_background_task import (
     G2PQueBackgroundTask,
     TaskStatus,
 )

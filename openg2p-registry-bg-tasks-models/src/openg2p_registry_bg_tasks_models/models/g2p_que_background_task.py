@@ -14,7 +14,7 @@ class TaskStatus(enum.Enum):
 
 
 class G2PQueBackgroundTask(BaseORMModel):
-    __tablename__ = "g2p_que_background_tasks"
+    __tablename__ = "g2p_que_background_task"
 
     id = mapped_column(Integer, primary_key=True, autoincrement=True)
     worker_type = mapped_column(String, default="example_worker")  # Default worker type

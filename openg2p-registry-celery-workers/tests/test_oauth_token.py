@@ -1,11 +1,10 @@
 from datetime import datetime
 from unittest.mock import MagicMock, patch
 
-# Patch config and logger before importing target class
-with (
-    patch("src.openg2p_registry_celery_workers.config.Settings") as mock_settings,
-    patch("logging.getLogger", return_value=MagicMock()),
-    patch("sqlalchemy.create_engine", return_value=MagicMock()),
+with patch(
+    "src.openg2p_registry_celery_workers.config.Settings"
+) as mock_settings, patch("logging.getLogger", return_value=MagicMock()), patch(
+    "sqlalchemy.create_engine", return_value=MagicMock()
 ):
     mock_config = MagicMock()
     mock_config.auth_url = "http://auth.test.com"
@@ -20,10 +19,14 @@ with (
 def test_get_oauth_token():
     service = OAuthTokenService()
 
-    with patch("src.openg2p_registry_celery_workers.helpers.oauth_token.OAuthTokenService.fetch_oauth_token", return_value="TEST_TOKEN"):
+    with patch(
+        "src.openg2p_registry_celery_workers.helpers.oauth_token.OAuthTokenService.fetch_oauth_token",
+        return_value="TEST_TOKEN",
+    ):
         token = service.get_oauth_token()
 
     assert token == "TEST_TOKEN"
+
 
 def test_fetch_oauth_token():
     mock_response = MagicMock()

@@ -1,5 +1,3 @@
-from typing import Dict
-
 from openg2p_fastapi_common.config import Settings as BaseSettings
 from pydantic_settings import SettingsConfigDict
 
@@ -25,6 +23,6 @@ class Settings(BaseSettings):
     celery_broker_url: str = "redis://localhost:6379/0"
     celery_backend_url: str = "redis://localhost:6379/0"
 
-    registry_beat_producer_frequency: int = 10
-    worker_type_max_attempts: Dict[str, int]
+    producer_frequency: int = 10
+    worker_type_max_attempts: dict[str, int] = {}
     batch_size: int = 10000

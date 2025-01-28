@@ -1,5 +1,3 @@
-from typing import Dict
-
 from openg2p_fastapi_common.config import Settings as BaseSettings
 from pydantic_settings import SettingsConfigDict
 
@@ -38,4 +36,4 @@ class Settings(BaseSettings):
     auth_client_secret: str = "idgenerator"
     auth_grant_type: str = "client_credentials"
 
-    worker_type_max_attempts: Dict[str, int]
+    worker_type_max_attempts: dict[str, int] = {}

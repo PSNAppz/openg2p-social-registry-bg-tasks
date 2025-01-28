@@ -23,6 +23,9 @@ class Settings(BaseSettings):
     celery_broker_url: str = "redis://localhost:6379/0"
     celery_backend_url: str = "redis://localhost:6379/0"
 
-    producer_frequency: int = 10
-    worker_type_max_attempts: dict[str, int] = {}
+    producer_frequency: int = 60
+    worker_type_max_attempts: dict[str, int] = {
+        "max_id_generation_request_attempts": 4,
+        "max_id_generation_update_attempts": 4,
+    }
     batch_size: int = 10000

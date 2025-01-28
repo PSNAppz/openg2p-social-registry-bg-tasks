@@ -36,4 +36,7 @@ class Settings(BaseSettings):
     auth_client_secret: str = "idgenerator"
     auth_grant_type: str = "client_credentials"
 
-    worker_type_max_attempts: dict[str, int] = {}
+    worker_type_max_attempts: dict[str, int] = {
+        "max_id_generation_request_attempts": 4,
+        "max_id_generation_update_attempts": 4,
+    }

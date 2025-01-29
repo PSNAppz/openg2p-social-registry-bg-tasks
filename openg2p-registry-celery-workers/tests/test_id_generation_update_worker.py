@@ -57,4 +57,5 @@ def test_id_generation_update_worker_success(
     id_generation_update_worker(1)
 
     assert mock_fetch[0].number_of_attempts == 1
+    assert mock_fetch[0].task_status == TaskStatus.COMPLETED
     mock_session.commit.assert_called()

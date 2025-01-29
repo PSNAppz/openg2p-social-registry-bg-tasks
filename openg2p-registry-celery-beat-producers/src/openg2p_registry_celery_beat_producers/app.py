@@ -33,7 +33,7 @@ celery_app = Celery(
 celery_app.conf.beat_schedule = {
     "registry_beat_producer": {
         "task": "registry_beat_producer",
-        "schedule": _config.registry_beat_producer_frequency,
+        "schedule": _config.producer_frequency,
     },
 }
 celery_app.conf.timezone = "UTC"
